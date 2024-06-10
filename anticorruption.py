@@ -8,6 +8,41 @@ url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/L-6.1'  # Use your actu
 headers = {'User-Agent': 'Mozilla/5.0'}
 response = requests.get(url, headers=headers)
 
+soup = BeautifulSoup(response.content, 'html.parser')
+finalObj = {}
+label_groups = soup.select(".Heading.Heading .Label-group4")
+header_divs = soup.select(".Heading.Heading")
+obj = {}
+
+def fetch_anticorruption_laws():
+    if response.status_code == 200:
+        # Step 3: Parse the HTML content
+        # soup = BeautifulSoup(response.content, 'html.parser')
+        # finalObj = {}
+
+        # label_groups = soup.select(".Heading.Heading .Label-group4")
+        # header_divs = soup.select(".Heading.Heading")
+        # title_num = header_div.select_one(".Label-group4").get_text()
+        # title_name = header_div.select_one(".TitleText-group4").get_text()
+        # print(title_name)
+
+        # for i,header_div in enumerate(header_divs):
+        #     title_num = header_div.select_one(".Label-group4")
+        #     title_name = header_div.select_one(".TitleText-group4")
+        #     if(title_name and title_num):
+        #         finalObj[title_num.get_text()] = title_name.get_text()
+        # print(finalObj)
+
+        # obj = {}
+        chapters_array = ["#ga\:l_i","#ga\:l_ii","#ga\:l_iii","#ga\:l_iv","#ga\:l_v"]
+        for chapter_id in chapters_array:
+            fetchChapters(chapter_id)
+        # print(obj)
+        # print(json.dumps(obj))
+        return {"ANTI-CORRUPTION ACT": obj}
+    else:
+        print(f"Failed to retrieve the web page. Status code: {response.status_code}")
+
 def fetchChapters(id):
     chapters = soup.select(id)
     for i,chapter in enumerate(chapters):
@@ -28,31 +63,3 @@ def fetchChapters(id):
         # print("SECTONNNNNNNNN\n",section_array)
 
 # Step 2: Check if the request was successful
-if response.status_code == 200:
-    # Step 3: Parse the HTML content
-    soup = BeautifulSoup(response.content, 'html.parser')
-    finalObj = {}
-
-    label_groups = soup.select(".Heading.Heading .Label-group4")
-    header_divs = soup.select(".Heading.Heading")
-    # title_num = header_div.select_one(".Label-group4").get_text()
-    # title_name = header_div.select_one(".TitleText-group4").get_text()
-    # print(title_name)
-
-    # for i,header_div in enumerate(header_divs):
-    #     title_num = header_div.select_one(".Label-group4")
-    #     title_name = header_div.select_one(".TitleText-group4")
-    #     if(title_name and title_num):
-    #         finalObj[title_num.get_text()] = title_name.get_text()
-    # print(finalObj)
-
-    obj = {}
-    chapters_array = ["#ga\:l_i","#ga\:l_ii","#ga\:l_iii","#ga\:l_iv","#ga\:l_v"]
-    for chapter_id in chapters_array:
-        fetchChapters(chapter_id)
-    # print(obj)
-    print(json.dumps(obj))
-    
-
-else:
-    print(f"Failed to retrieve the web page. Status code: {response.status_code}")

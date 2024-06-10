@@ -8,7 +8,21 @@ url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/E-22'  # Use your actua
 headers = {'User-Agent': 'Mozilla/5.0'}
 response = requests.get(url, headers=headers)
 
+soup = BeautifulSoup(response.content, 'html.parser')
+finalObj = {}
+label_groups = soup.select(".Heading.Heading .Label-group4")
+header_divs = soup.select(".Heading.Heading")
+obj = {}
+
+def fetch_explosive_laws():
+    if response.status_code == 200:
+        return fetchChapters()
+    else:
+        print(f"Failed to retrieve the web page. Status code: {response.status_code}")
+    
+
 def fetchChapters():
+    print("EXECEUTNF")
     chapters = soup.select(".LegislativeDocument.Global.Style_Extra_Class")
     for i,chapter in enumerate(chapters):
         descriptions = chapter.select(".section")
@@ -23,20 +37,7 @@ def fetchChapters():
             "title": title_name,
         }
         obj[title_num]["sections"] = section_array
+        # print(obj)
+    return {"ACT RESPECTING EXPLOSIVES": obj}
 
-# Step 2: Check if the request was successful
-if response.status_code == 200:
-    # Step 3: Parse the HTML content
-    soup = BeautifulSoup(response.content, 'html.parser')
-    finalObj = {}
-
-    label_groups = soup.select(".Heading.Heading .Label-group4")
-    header_divs = soup.select(".Heading.Heading")
-
-    obj = {}
-    fetchChapters()
-    print(json.dumps(obj))
-    
-
-else:
-    print(f"Failed to retrieve the web page. Status code: {response.status_code}")
+# fetch_explosive_laws()
