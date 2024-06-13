@@ -4,7 +4,8 @@ import json
 # from explosive import log
 
 # Step 1: Send a request to the web page
-url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/E-22'  # Use your actual URL
+url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/C-28'  # Use your actual URL
+# url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/E-22'  # Use your actual URL
 headers = {'User-Agent': 'Mozilla/5.0'}
 response = requests.get(url, headers=headers)
 
@@ -14,7 +15,7 @@ label_groups = soup.select(".Heading.Heading .Label-group4")
 header_divs = soup.select(".Heading.Heading")
 obj = {}
 
-def fetch_explosive_laws():
+def fetch_safe_deposit_laws():
     if response.status_code == 200:
         return fetchChapters()
     else:
@@ -25,8 +26,8 @@ def fetchChapters():
     chapters = soup.select(".LegislativeDocument.Global.Style_Extra_Class")
     for i,chapter in enumerate(chapters):
         descriptions = chapter.select(".section")
-        title_num = "chapter E-22"
-        title_name = "ACT RESPECTING EXPLOSIVES"
+        title_num = "chapter C-28"
+        title_name = "SAFE-DEPOSIT BOXES ACT"
         section_array = []
         for section in descriptions:
             single_section = section.select_one(".Subsection").get_text() 
@@ -37,6 +38,6 @@ def fetchChapters():
         }
         obj[title_num]["sections"] = section_array
         # print(obj)
-    return {"ACT RESPECTING EXPLOSIVES": obj}
+    return {"SAFE-DEPOSIT BOXES ACT": obj}
 
-# fetch_explosive_laws()
+# fetch_safe_deposit_laws()

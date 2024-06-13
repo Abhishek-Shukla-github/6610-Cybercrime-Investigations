@@ -26,7 +26,7 @@ def fetchChapters():
     chapters = soup.select(".LegislativeDocument.Global.Style_Extra_Class")
     for i,chapter in enumerate(chapters):
         descriptions = chapter.select(".section")
-        title_num = "chapter R-14"
+        title_num = "chapter P-38.0001"
         title_name = "ACT TO PROTECT PERSONS WITH REGARD TO ACTIVITIES INVOLVING FIREARMS"
         section_array = []
         for section in descriptions:
