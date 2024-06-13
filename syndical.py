@@ -4,7 +4,7 @@ import json
 # from explosive import log
 
 # Step 1: Send a request to the web page
-url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/B-6'  # Use your actual URL
+url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/R-14'  # Use your actual URL
 # url = 'https://www.legisquebec.gouv.qc.ca/en/document/cs/E-22'  # Use your actual URL
 headers = {'User-Agent': 'Mozilla/5.0'}
 response = requests.get(url, headers=headers)
@@ -15,7 +15,7 @@ label_groups = soup.select(".Heading.Heading .Label-group4")
 header_divs = soup.select(".Heading.Heading")
 obj = {}
 
-def fetch_tear_bomb_laws():
+def fetch_syndical_laws():
     if response.status_code == 200:
         return fetchChapters()
     else:
@@ -26,8 +26,8 @@ def fetchChapters():
     chapters = soup.select(".LegislativeDocument.Global.Style_Extra_Class")
     for i,chapter in enumerate(chapters):
         descriptions = chapter.select(".section")
-        title_num = "chapter B-6"
-        title_name = "ACT RESPECTING TEAR BOMBS"
+        title_num = "chapter R-14"
+        title_name = "ACT RESPECTING THE SYNDICAL PLAN OF THE SÛRETÉ DU QUÉBEC AND OF SPECIALIZED POLICE FORCES"
         section_array = []
         for section in descriptions:
             single_section = section.select_one(".Subsection").get_text() 
@@ -38,6 +38,6 @@ def fetchChapters():
         }
         obj[title_num]["sections"] = section_array
         # print(obj)
-    return {"ACT RESPECTING TEAR BOMBS": obj}
+    return {"ACT RESPECTING THE SYNDICAL PLAN OF THE SÛRETÉ DU QUÉBEC AND OF SPECIALIZED POLICE FORCES": obj}
 
-# fetch_tear_bomb_laws()
+# fetch_syndical_laws()
